@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.ubivelox.boottlv</groupId>
-	<artifactId>spring_boot_tlvparser</artifactId>
+	<groupId>com.ubivelox.restfultlv</groupId>
+	<artifactId>spring_boot_tlvparser_restful</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>spring_boot_tlvparser</name>
+	<name>spring_boot_tlvparser_restful</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
@@ -39,15 +39,14 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-	
+		
 		<!-- json을 의존성 추가 -->
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
 			<artifactId>json-simple</artifactId>
 			<version>1.1</version>
 	 	</dependency>
-
-
+	 	
 		<!-- jasper 및 jstl 을 의존성 추가 -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
