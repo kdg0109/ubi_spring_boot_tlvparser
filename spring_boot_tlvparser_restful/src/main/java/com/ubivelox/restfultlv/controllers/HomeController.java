@@ -23,6 +23,8 @@ import com.ubivelox.gaia.util.GaiaUtils;
 
 import exception.UbiveloxException;
 import tlvparser.TLVObject;
+import tlvparser.TLVParser;
+import tlvparser.TLVParserWithArrayList;
 
 @Controller
 public class HomeController
@@ -41,8 +43,6 @@ public class HomeController
         StringBuffer result = getParser("http://localhost:8080/json/string/" + hexaString);
 
         String resultString = result.toString();
-        resultString = resultString.replaceAll("♨", "\n")
-                                   .replaceAll("♬", "\t");
 
         modelMap.addAttribute("listCheck", listCheck);
         modelMap.addAttribute("HexaString", hexaString);
@@ -114,7 +114,7 @@ public class HomeController
             else
             {
 
-                value = (String) jsonObj.get("value");
+                value = (String) jsonObj.get("stringValue");
 
                 tlvList.add(new TLVObject(tag, length, value));
             }
@@ -160,6 +160,7 @@ public class HomeController
             while ( (line = in.readLine()) != null )
             { // response를 차례대로 출력
                 result.append(line);
+                result.append("\n");
             }
         }
         catch ( Exception e )
@@ -184,4 +185,49 @@ public class HomeController
         return result;
 
     }
+
+
+
+
+
+    @RequestMapping(value = "/tlvparser/jar/string",
+                    method = RequestMethod.GET)
+    public String getTlvParserString2(final HttpServletRequest request, @RequestParam final String hexaString, final ModelMap modelMap) throws UbiveloxException, GaiaException
+    {
+
+        boolean listCheck = false; // list넘김인지 String 넘김인지 flag
+
+        GaiaUtils.checkHexaString(hexaString);
+        modelMap.addAttribute("listCheck", listCheck);
+        modelMap.addAttribute("HexaString", hexaString);
+        modelMap.addAttribute("Result", TLVParser.parse(hexaString));
+
+        return "input_view";
+
+    }
+
+
+
+
+
+    @RequestMapping(value = "/tlvparser/jar/list",
+                    method = RequestMethod.GET)
+    public String input2(final HttpServletRequest request, final ModelMap modelMap, @RequestParam final String hexaString) throws UbiveloxException, GaiaException
+    {
+        GaiaUtils.checkHexaString(hexaString);
+
+        boolean listCheck = true; // list넘김인지 String 넘김인지 flag
+        String hexString = hexaString;
+
+        byte[] byteArray = GaiaUtils.convertHexaStringToByteArray(hexString);
+
+        ArrayList<TLVObject> tlvList = TLVParserWithArrayList.parse1(hexString, byteArray, 0, -1);
+
+        modelMap.addAttribute("listCheck", listCheck);
+        modelMap.addAttribute("TlvList", tlvList);
+        modelMap.addAttribute("HexaString", hexaString);
+
+        return "input_view";
+    }
+
 }

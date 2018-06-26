@@ -15,7 +15,7 @@
 <style> 
     #main {
 	    width: 70%;
-	    height: 1000px;
+	    height: 600px;
 	    margin: auto;
   	}
 	input {
@@ -108,16 +108,16 @@
 %> 
 
 <body>
-	<table id="main" width="auto" cellpadding="0" cellspacing="0" border="1" >
+	<table id="main"  width="auto" cellpadding="0" cellspacing="0" border="1" >
 		<form action="" method="get">
 			<tr>
 				<td> HexaString </td>
-				<td> <input type="text" name="hexaString" id="hexaString" value="${HexaString}"> </td>
+				<td colspan="3"> <input type="text" name="hexaString" id="hexaString" value="${HexaString}"> </td>
 			</tr>
 			<tr id="result" >
 				<td> Result </td>
-				<td>
-				<div style="overflow:scroll; width:100%; height: 1000px; padding:10px">
+				<td colspan="3">
+				<div style="overflow:scroll; width:100%; height: 600px; padding:10px">
 				<% if(listCheck){ %>
 					<%out.println(getTLV(list, 0)); 
 					} else {%>
@@ -128,8 +128,10 @@
 				</td>
 			</tr>
 			<tr>
-				<td> <input type="button" id="stringButton" class="button" value="String 출력"></td>
-				<td> <input type="button" id="listButton" class="button" value="List 출력"></td>
+				<td> <input type="button" id="stringButton" class="button" value="Restful String 출력"></td>
+				<td> <input type="button" id="listButton" class="button" value="Restful List 출력"></td>
+				<td> <input type="button" id="stringButtonJar" class="button" value="Jar String 출력"></td>
+				<td> <input type="button" id="listButtonJar" class="button" value="Jar List 출력"></td>
 			</tr>
 		</form>
 	</table>
@@ -149,6 +151,12 @@
 				break;
 			case "listButton":	
 				location.href = "/tlvparser/json/list?hexaString="+$('#hexaString').val();
+				break;
+			case "stringButtonJar":	
+				location.href = "/tlvparser/jar/string?hexaString="+$('#hexaString').val();
+				break;
+			case "listButtonJar":	
+				location.href = "/tlvparser/jar/list?hexaString="+$('#hexaString').val();
 				break;
 			}
 			
