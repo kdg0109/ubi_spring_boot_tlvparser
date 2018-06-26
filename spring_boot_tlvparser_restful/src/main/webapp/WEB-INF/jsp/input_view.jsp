@@ -34,9 +34,6 @@
 	
 	if(request.getAttribute("listCheck") != null){
 		list = (ArrayList<TLVObject>) request.getAttribute("TlvList"); 
-	}	    
-	
-	if(request.getAttribute("listCheck") != null){
 	    listCheck = (boolean)request.getAttribute("listCheck"); 
 	}	    
      
@@ -120,25 +117,24 @@
 			<tr id="result" >
 				<td> Result </td>
 				<td>
-				
-				<% if(listCheck){%>
-					<div style="overflow:scroll; width:100%; height: 1000px; padding:10px"><% out.println(getTLV(list, 0)); %><div>
-				<%} else {%>
-					<div style="overflow:scroll; width:100%; height: 1000px; padding:10px"><pre>${Result}</pre><div>
-				<% 
-				} %>
+				<div style="overflow:scroll; width:100%; height: 1000px; padding:10px">
+				<% if(listCheck){ %>
+					<%out.println(getTLV(list, 0)); 
+					} else {%>
+					<pre>${Result}</pre>
+				<% 	} %>
+				</div>
 				
 				</td>
 			</tr>
 			<tr>
-				<td> <input type="button" id="stringButton" class="button" value="String 출력"></a></td>
-				<td> <input type="button" id="listButton" class="button" value="List 출력"></a></td>
+				<td> <input type="button" id="stringButton" class="button" value="String 출력"></td>
+				<td> <input type="button" id="listButton" class="button" value="List 출력"></td>
 			</tr>
 		</form>
 	</table>
 	
 	<script>
-	console.log("스크립트");
 		function clickHandler() {
 			var btn = $('.button');
 			for(var i = 0; i < btn.length; i++){
@@ -147,7 +143,6 @@
 		}
 	
 		function action() {		
-
 			switch (this.id) {
 			case "stringButton":	
 				location.href = "/tlvparser/json/string?hexaString="+$('#hexaString').val();

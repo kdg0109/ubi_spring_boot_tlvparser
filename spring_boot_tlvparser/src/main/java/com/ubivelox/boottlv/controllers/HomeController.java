@@ -7,10 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,18 +23,9 @@ import tlvparser.TLVObject;
 import tlvparser.TLVParser;
 import tlvparser.TLVParserWithArrayList;
 
-/**
- * Handles requests for the application home page.
- */
 @Controller
 public class HomeController
 {
-
-    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-
-
-
-
 
     @RequestMapping(value = "/json/string/{hexaString}",
                     method = RequestMethod.GET,
@@ -72,9 +60,6 @@ public class HomeController
 
         List<Map<String, Object>> treeList = convertArrayListToMap(tlvList);
 
-        // 코드 부분이 대체될 부분
-        JSONArray jArray = new JSONArray();
-
         JSONObject jObject = new JSONObject();
         jObject.put("list", treeList);
 
@@ -85,12 +70,14 @@ public class HomeController
 
 
 
-    private List convertArrayListToMap(final List<TLVObject> tlvList)
+    private List<Map<String, Object>> convertArrayListToMap(final List<TLVObject> tlvList) throws GaiaException
     {
         TLVObject tlvObject = null;
         String tag = "";
         String length = "";
         String stringValue = "";
+
+        GaiaUtils.checkNull(tlvList);
 
         List<Map<String, Object>> treeList = new ArrayList<>();
         for ( int i = 0; i < tlvList.size(); i++ )

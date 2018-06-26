@@ -12,8 +12,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,18 +24,9 @@ import com.ubivelox.gaia.util.GaiaUtils;
 import exception.UbiveloxException;
 import tlvparser.TLVObject;
 
-/**
- * Handles requests for the application home page.
- */
 @Controller
 public class HomeController
 {
-
-    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-
-
-
-
 
     @RequestMapping(value = "/tlvparser/json/string",
                     method = RequestMethod.GET,
@@ -98,12 +87,13 @@ public class HomeController
 
 
 
-    private ArrayList<TLVObject> convertJsonToArrayList(final ArrayList<TLVObject> tlvList, final JSONArray jArray)
+    private ArrayList<TLVObject> convertJsonToArrayList(final ArrayList<TLVObject> tlvList, final JSONArray jArray) throws GaiaException
     {
         String tag = "";
         String length = "";
         String value = "";
-        TLVObject tlvObject;
+
+        GaiaUtils.checkNull(tlvList, jArray);
 
         // for문 한 번 돌 때가 최 상위
         for ( int i = 0; i < jArray.size(); i++ )
@@ -149,11 +139,13 @@ public class HomeController
 
 
 
-    private StringBuffer getParser(final String urlString)
+    private StringBuffer getParser(final String urlString) throws GaiaException, UbiveloxException
     {
         BufferedReader in = null;
 
         StringBuffer result = new StringBuffer();
+
+        GaiaUtils.checkNull(urlString);
 
         try
         {
@@ -172,7 +164,7 @@ public class HomeController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            throw new UbiveloxException("URL 통신 에러");
         }
         finally
         {
@@ -184,7 +176,7 @@ public class HomeController
                 }
                 catch ( Exception e )
                 {
-                    e.printStackTrace();
+                    throw new UbiveloxException("BufferedReader 에러");
                 }
             }
         }
